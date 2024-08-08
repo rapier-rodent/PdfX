@@ -33,4 +33,16 @@ if st.button("Transcribe"):
 
         # Save JSON to file
         json_filename = "transcription_output.json"
-        with
+        with open(json_filename, "w") as json_file:
+            json_file.write(json_output)
+
+        # Save data to Excel
+        excel_filename = "transcription_output.xlsx"
+        save_to_excel({"transcription": [pdf_text]}, excel_filename)
+
+        # Provide download links
+        st.success("Transcription completed!")
+        st.download_button("Download JSON", json_filename, mime="application/json")
+        st.download_button("Download Excel", excel_filename, mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    else:
+        st.error("Please upload a PDF file.")
