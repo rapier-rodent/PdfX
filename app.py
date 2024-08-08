@@ -2,15 +2,13 @@ import streamlit as st
 import pandas as pd
 import fitz  # PyMuPDF
 import json
-import pytesseract
 
-# Function to read PDF and extract text using Tesseract
+# Function to read PDF and extract text
 def extract_text_from_pdf(pdf_file):
     text = ""
     with fitz.open(pdf_file) as pdf:
         for page in pdf:
-            img = page.get_pixmap()
-            text += pytesseract.image_to_string(img)
+            text += page.get_text()
     return text
 
 # Function to save data to Excel
@@ -25,7 +23,7 @@ uploaded_file = st.file_uploader("Upload a PDF file", type=["pdf"])
 
 if st.button("Transcribe"):
     if uploaded_file:
-        # Extract text from PDF using Tesseract
+        # Extract text from PDF
         pdf_text = extract_text_from_pdf(uploaded_file)
 
         # Convert text to JSON
